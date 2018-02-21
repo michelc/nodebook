@@ -1,0 +1,2524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.6.1">
+<title>Jouer avec Node.js</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
+/* Remove comment around @import statement below when using as a custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
+audio,canvas,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+[hidden],template{display:none}
+script{display:none!important}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:transparent}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.spread{width:100%}
+p.lead,.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{font-size:1.21875em;line-height:1.6}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:none}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #ddddd8;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite:before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media only screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7;font-weight:bold}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
+.clearfix:after,.float-group:after{clear:both}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
+pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button:before,b.button:after{position:relative;top:-1px;font-weight:400}
+b.button:before{content:"[";padding:0 3px 0 2px}
+b.button:after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header:before,#header:after,#content:before,#content:after,#footnotes:before,#footnotes:after,#footer:before,#footer:after{content:" ";display:table}
+#header:after,#content:after,#footnotes:after,#footer:after{clear:both}
+#content{margin-top:1.25em}
+#content:before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #ddddd8}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #ddddd8;padding-bottom:8px}
+#header .details{border-bottom:1px solid #ddddd8;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span:before{content:"\00a0\2013\00a0"}
+#header .details br+span.author:before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark:before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber:after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #ddddd8;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #efefed;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media only screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #efefed;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}
+@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+.sect1{padding-bottom:.625em}
+@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}
+.sect1+.sect1{border-top:1px solid #efefed}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor:before,h2>a.anchor:before,h3>a.anchor:before,#toctitle>a.anchor:before,.sidebarblock>.content>.title>a.anchor:before,h4>a.anchor:before,h5>a.anchor:before,h6>a.anchor:before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock>caption.title{white-space:nowrap;overflow:visible;max-width:0}
+.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:initial}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #ddddd8;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock pre:not(.highlight),.listingblock pre[class="highlight"],.listingblock pre[class^="highlight "],.listingblock pre.CodeRay,.listingblock pre.prettyprint{background:#f7f7f8}
+.sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
+.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;padding:1em;font-size:.8125em}
+.literalblock pre.nowrap,.literalblock pre[class].nowrap,.listingblock pre.nowrap,.listingblock pre[class].nowrap{overflow-x:auto;white-space:pre;word-wrap:normal}
+@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]:before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:#999}
+.listingblock:hover code[data-lang]:before{display:block}
+.listingblock.terminal pre .command:before{content:attr(data-prompt);padding-right:.5em;color:#999}
+.listingblock.terminal pre .command:not([data-prompt]):before{content:"$"}
+table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
+table.pyhltable td.code{padding-left:.75em;padding-right:0}
+pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #ddddd8}
+pre.pygments .lineno{display:inline-block;margin-right:.25em}
+table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock blockquote p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote:before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.5em;margin-right:.5ex;text-align:right}
+.quoteblock .quoteblock{margin-left:0;margin-right:0;padding:.5em 0;border-left:3px solid rgba(0,0,0,.6)}
+.quoteblock .quoteblock blockquote{padding:0 0 0 .75em}
+.quoteblock .quoteblock blockquote:before{display:none}
+.verseblock{margin:0 1em 1.25em 1em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract{margin:0 0 1.25em 0;display:block}
+.quoteblock.abstract blockquote,.quoteblock.abstract blockquote p{text-align:left;word-spacing:0}
+.quoteblock.abstract blockquote:before,.quoteblock.abstract blockquote p:first-of-type:before{display:none}
+table.tableblock{max-width:100%;border-collapse:separate}
+table.tableblock td>.paragraph:last-child p>p:last-child,table.tableblock th>p:last-child,table.tableblock td>p:last-child{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px 0}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot{border-width:1px 0}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+td>div.verse{white-space:pre}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
+ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
+ul.inline>li>*{display:block}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist>table tr>td:first-of-type{padding:.4em .75em 0 .75em;line-height:1;vertical-align:top}
+.colist>table tr>td:first-of-type img{max-width:initial}
+.colist>table tr>td:last-of-type{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left,.imageblock[style*="float: left"]{margin:.25em .625em 1.25em 0}
+.imageblock.right,.imageblock[style*="float: right"]{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em 0;border-width:1px 0 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;text-indent:-1.05em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background-color:#00fafa}
+.black{color:#000}
+.black-background{background-color:#000}
+.blue{color:#0000bf}
+.blue-background{background-color:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background-color:#fa00fa}
+.gray{color:#606060}
+.gray-background{background-color:#7d7d7d}
+.green{color:#006000}
+.green-background{background-color:#007d00}
+.lime{color:#00bf00}
+.lime-background{background-color:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background-color:#7d0000}
+.navy{color:#000060}
+.navy-background{background-color:#00007d}
+.olive{color:#606000}
+.olive-background{background-color:#7d7d00}
+.purple{color:#600060}
+.purple-background{background-color:#7d007d}
+.red{color:#bf0000}
+.red-background{background-color:#fa0000}
+.silver{color:#909090}
+.silver-background{background-color:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background-color:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background-color:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background-color:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background-color:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]:after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@media print{@page{margin:1.25cm .75cm}
+*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]:after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #ddddd8!important;padding-bottom:0!important}
+.sect1{padding-bottom:0!important}
+.sect1+.sect1{border:0!important}
+#header>h1:first-child{margin-top:1.25rem}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em 0}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span:before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]:before{display:block}
+#footer{background:none!important;padding:0 .9375em}
+#footer-text{color:rgba(0,0,0,.6)!important;font-size:.9em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+</style>
+<style type="text/css">.interactive--javascript code[data-lang]:before {
+  display: block;
+  color: #00c72b;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+  [lang="en"] .interactive--javascript code[data-lang]:before {
+    content: "▶ run code";
+  }
+  [lang="fr"] .interactive--javascript code[data-lang]:before {
+    content: "▶ voir le résultat";
+  }
+  .interactive--javascript code[data-label]:before {
+    content: attr(data-label);
+  }
+
+.interactive iframe {
+  position: absolute;
+  visibility: hidden;
+}
+
+.interactive.status--loaded iframe {
+  position: inherit;
+  visibility: visible;
+}
+
+.interactive.status--loading {
+  opacity: .5;
+}
+</style><script src="https://embed.runkit.com/" defer async></script><script>(function(){
+        function makeListingInteractive(element){
+  if (element.classList.contains('interactive--installed')) {
+    return;
+  }
+
+  const code = element.querySelector('code');
+  const source = code
+    .textContent
+    .replace(/\(\d+\)$/gm, '')
+    .replace(/^["']?use strict["'][; ]*\n/, '');
+
+  element.classList.add('status--loading');
+
+  // eslint-disable-next-line no-undef
+  RunKit.createNotebook({
+    element: element,
+    source: source,
+    onLoad: function(ntbk) {
+      element.classList.add('interactive--installed');
+      element.classList.remove('status--loading');
+      element.classList.add('status--loaded');
+      code.parentNode.setAttribute('hidden', true);
+
+      ntbk.evaluate();
+    }
+  });
+}
+function installEvents() {
+  function getParent(el, condition) {
+    let parent = el;
+
+    while(parent = parent.parentNode) {
+      if (condition(parent)) {
+        return parent;
+      }
+    }
+  }
+
+  function hasClass(className) {
+    return function check(el) {
+      return el.classList.contains(className);
+    }
+  }
+
+  document.querySelector('body').addEventListener('click', function(el) {
+    if (el.target.classList.contains('language-javascript')) {
+      const parentNode = getParent(
+        el.target,
+        hasClass('interactive--javascript')
+      );
+
+      makeListingInteractive(parentNode);
+    }
+  });
+}
+
+        document.addEventListener('DOMContentLoaded', installEvents);
+      })();</script>
+<style type="text/css">
+.listingblock .dollar::before{
+  content: "$ ";
+  opacity: .5; }
+</style>
+<style type="text/css">
+.admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title, #toctitle {
+  font-style: normal;
+  font-weight: bold;
+}
+a {
+  white-space: nowrap;
+}
+.RemarquePreTitre {
+	font-style: normal;
+  font-weight: bold;
+	border-bottom: 1px solid #ddddd8;
+}
+.icon .title {
+  font-size: 2em;
+}
+</style>
+</head>
+<body class="book">
+<div id="header">
+<h1>Jouer avec Node.js</h1>
+<div class="details">
+<span id="revdate">2018-02-21</span>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>TBD.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="ulist">
+<div class="title">Sommaire</div>
+<ul>
+<li>
+<p>TBD.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="quoteblock abstract">
+<blockquote>
+<div class="paragraph">
+<p>TBD.</p>
+</div>
+</blockquote>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💬</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Remarque</span> Versions de Node et npm</div>
+<div class="paragraph">
+<p>Le contenu de ce chapitre utilise les versions <strong>Node v8</strong> et <strong>npm v5</strong>.
+Ce sont les versions stables en 2018.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💡</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Remarque</span> Utilisation des exemples</div>
+<div class="paragraph">
+<p>Les exemples légendés avec un <em>nom de fichier</em> sont disponibles dans le module <em>npm</em> dédié à cet ouvrage.
+Ils sont fonctionnels et destinés à être exécutés sur votre ordinateur :</p>
+</div>
+<div class="listingblock">
+<div class="title">Exemple d&#8217;exécution du bloc de code légendé par <code>TODO.js</code>.</div>
+<div class="content">
+<pre><span class=dollar></span>npm install --global nodebook
+<span class=dollar></span>nodebook install chapter-04
+<span class=dollar></span>cd $(nodebook dir chapter-04 --examples)
+<span class=dollar></span>node TODO.js</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">Table des matières</div>
+<ul class="sectlevel1">
+<li><a href="#node_et_son_api">1. Node et son API</a></li>
+<li><a href="#unix-legacy">2. L&#8217;héritage UNIX</a>
+<ul class="sectlevel2">
+<li><a href="#process-env">2.1. Variables d&#8217;environnement</a></li>
+<li><a href="#la_variable_code_path_code">2.2. La variable <code>$PATH</code></a></li>
+<li><a href="#processus">2.3. Processus</a></li>
+<li><a href="#interpréteur">2.4. Interpréteur</a></li>
+<li><a href="#arguments_de_processus_code_argv_code">2.5. Arguments de processus (<code>argv</code>)</a></li>
+<li><a href="#streams_et_redirections">2.6. Streams et redirections</a></li>
+</ul>
+</li>
+<li><a href="#architecture_technique">3. Architecture technique</a>
+<ul class="sectlevel2">
+<li><a href="#api_node">3.1. API Node</a></li>
+<li><a href="#modules_commonjs">3.2. Modules CommonJS</a></li>
+<li><a href="#interpréteur_node">3.3. Interpréteur Node</a></li>
+<li><a href="#v8">3.4. Machine Virtuelle V8</a></li>
+<li><a href="#libuv">3.5. libuv</a></li>
+<li><a href="#event-loop">3.6. Boucle événementielle</a></li>
+</ul>
+</li>
+<li><a href="#invoke">4. Invoquer Node.js</a>
+<ul class="sectlevel2">
+<li><a href="#repl">4.1. REPL</a></li>
+<li><a href="#node-exec">4.2. Exécution de script</a></li>
+<li><a href="#node-sh">4.3. Script shell</a>
+<ul class="sectlevel3">
+<li><a href="#npm-scripts">4.3.1. Scripts npm</a></li>
+</ul>
+</li>
+<li><a href="#arguments_d_invocation">4.4. Arguments d&#8217;invocation</a></li>
+<li><a href="#plantage_applicatif">4.5. Plantage applicatif</a></li>
+</ul>
+</li>
+<li><a href="#globals">5. Variables globales dans Node.js</a>
+<ul class="sectlevel2">
+<li><a href="#console">5.1. console</a></li>
+<li><a href="#api-process">5.2. process</a></li>
+<li><a href="#module">5.3. module</a></li>
+<li><a href="#api-require">5.4. require</a></li>
+<li><a href="#filename_et_dirname">5.5. __filename et __dirname</a></li>
+<li><a href="#settimeout_setinterval_et_setimmediate">5.6. setTimeout, setInterval et setImmediate</a></li>
+<li><a href="#">5.7. _</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="node_et_son_api">1. Node et son API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Node communique un indice de stabilité pour chacune de ses API publiques selon une échelle discrète graduée de 0 à 5.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="./images/node-api-deprecation.png" alt="node api deprecation" width="85%">
+</div>
+<div class="title">Figure 1. Exemple avec l&#8217;api <code>punycode</code>, dont le statut est marqué comme déprécié depuis la v7.</div>
+</div>
+<div class="paragraph">
+<p>Cette échelle se décompose de la manière suivante :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>0 : le module est <strong>déprécié</strong> et peut être supprimé dans une prochaine version majeure ;</p>
+</li>
+<li>
+<p>1 : le module est <strong>expérimental</strong>, instable et nécessite des retours utilisateurs ;</p>
+</li>
+<li>
+<p>2 : le module est <strong>instable</strong>, son API peut changer et nécessite davantage de tests grandeur nature avant d&#8217;être considéré comme stable ;</p>
+</li>
+<li>
+<p>3 : le module est <strong>stable</strong> mais peut être sujet à des changements mineurs d&#8217;API ;</p>
+</li>
+<li>
+<p>4 : le module est <strong>gelé</strong>, son API ne devrait plus du tout changer ;</p>
+</li>
+<li>
+<p>5 : le module est <strong>verrouillé</strong>, son code interne ne changera plus.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Ce mécanisme aide au choix des composants pour bâtir des applications robustes ainsi qu&#8217;une estimation de l&#8217;effort de maintenance en cas de changement majeur à venir.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💡</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Lien</span> Documentation de l&#8217;API Node</div>
+<div class="paragraph">
+<p>La documentation de l&#8217;API Node est disponible au format HTML sur le site officiel du projet.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="URL"><a href="https://nodejs.org/api/" class="bare">nodejs.org/api/</a></span></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="unix-legacy">2. L&#8217;héritage UNIX</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Node est un environnement d&#8217;exécution permettant d&#8217;exécuter du code écrit en JavaScript.
+C&#8217;est aussi un environnement capable de discuter avec le système d&#8217;exploitation.</p>
+</div>
+<div class="paragraph">
+<p>Node emprunte à ce titre pas mal d&#8217;éléments de la philosophie UNIX.
+Apprendre Node, c&#8217;est apprendre JavaScript, dialoguer avec
+le système d&#8217;exploitation et les concepts d&#8217;interopérabilité
+entre applications systèmes.</p>
+</div>
+<div class="paragraph">
+<p>Balayons différents concepts qui nous serons utiles pour la conception de nos applications.</p>
+</div>
+<div class="sect2">
+<h3 id="process-env">2.1. Variables d&#8217;environnement</h3>
+<div class="paragraph">
+<p>Lorsqu&#8217;un système d&#8217;exploitation est en état de marche,
+différents programmes fonctionnent pour fournir différents services :
+transmission du son, affichage vidéo, coordination des processus
+et de leurs ressources, etc.</p>
+</div>
+<div class="paragraph">
+<p>Ces programmes utilisent des espaces mémoire exclusifs, d&#8217;autres des espaces mémoire partagés.
+Un de ces espaces partagés contient des <strong>variables</strong> décrivant l'<em>environnement</em> dans lequel l&#8217;ensemble des programmes évoluent.
+Ces variables peuvent être utilisées par chacun de ces programmes.</p>
+</div>
+<div class="paragraph">
+<p>Il est possible de les lister en utilisant la commande <code>env</code> :</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="./images/unix-env.png" alt="unix env" width="85%">
+</div>
+</div>
+<div class="paragraph">
+<p>Il nous est également possible d&#8217;en créer de nouvelles avec une syntaxe de <code>CLÉ=VALEUR</code>.
+L&#8217;exemple suivant illustre la création d&#8217;une telle variable, son affichage puis son affichage en faisant appel à un autre programme, en l&#8217;occurrence Node :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>TEST=1
+<span class=dollar></span>echo $TEST
+<span class=dollar></span>node -p 'process.env.TEST'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nous nous heurtons à la portée des variables, locale à la session de notre terminal mais pas à l&#8217;interpréteur Node.
+La <em>portée</em> est réduite à notre session uniquement.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;exemple suivant assigne une valeur à une variable d&#8217;environnement au niveau de l'<em>exécution d&#8217;un programme</em> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>TEST=1 node -p 'process.env.TEST'
+<span class=dollar></span>echo $TEST</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>La valeur <code>1</code> est affichée dans le processus Node mais pas dans notre session.
+La <em>portée</em> est réduite à l&#8217;invocation uniquement.</p>
+</div>
+<div class="paragraph">
+<p>Un opérateur permet de propager une variable, de l'<em>exporter</em> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>export TEST=1
+<span class=dollar></span>node -p 'process.env.TEST'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Cet exemple nous a permis de définir une variable en dehors d&#8217;une invocation et de la rendre utilisable dans un autre processus.</p>
+</div>
+<div class="paragraph">
+<p><code>env</code> affiche toutes les variables <em>exportées</em>.
+<code>local</code> ou <code>set</code> affichent toutes les variables <em>locales</em> et <em>exportées</em>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="la_variable_code_path_code">2.2. La variable <code>$PATH</code></h3>
+<div class="paragraph">
+<p>La variable d&#8217;environnement <code>$PATH</code> est importante.
+C&#8217;est son contenu qui régit où le système d&#8217;exploitation va chercher quel programme exécuter lorsque son nom est invoqué dans un terminal.</p>
+</div>
+<div class="paragraph">
+<p>Prenons par exemple cette commande :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node --version</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Où se trouve <code>node</code> sur notre système ?
+Une autre commande nous permet de le savoir :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>which node
+/usr/bin/node</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>La valeur de <code>$PATH</code> est une liste de chemins séparés par le symbole <code>:</code>, par exemple :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Lorsque l&#8217;on demande l&#8217;exécution d&#8217;un programme – <code>node</code> par exemple – le système d&#8217;exploitation balaie chacun des répertoires du <code>$PATH</code> à la recherche d&#8217;un fichier exécutable nommé <code>node</code>.
+L&#8217;algorithme est le suivant :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>node</code> trouvé dans <code>/usr/local/bin</code> ? Non ;</p>
+</li>
+<li>
+<p><code>node</code> trouvé dans <code>/usr/bin</code> ? Oui.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>La recherche s&#8217;arrête là, le chemin du programme est retourné et ledit programme est alors exécuté.</p>
+</div>
+<div class="paragraph">
+<p>Certaines sections du livre feront mention à cette variable <code>$PATH</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="processus">2.3. Processus</h3>
+<div class="paragraph">
+<p>Un processus est un ensemble comprenant un <em>programme</em>, les <em>variables</em> actives et la <em>mémoire</em> allouée.
+Chaque processus est identifié de manière unique avec un identifiant (<code>pid</code> – <em>process identifier</em>)</p>
+</div>
+<div class="paragraph">
+<p>Un même programme peut être exécuté plusieurs fois en parallèle, à quelques exceptions près.
+Chaque exécution se déroule dans un espace de mémoire isolé de tout autre exécution du même programme.<br>
+Une exception notable est le cas des <em>sous-process</em> (<em>child process</em>) où certaines ressources peuvent être partagées.</p>
+</div>
+<div class="paragraph">
+<p>Dans les architectures processeur classiques (les <code>x86</code> notamment), un processus fonctionne sur un seul processeur (<em>CPU</em>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="interpréteur">2.4. Interpréteur</h3>
+<div class="paragraph">
+<p>Quand un programme est exécuté, le système d&#8217;exploitation fait face à deux options :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>le fichier est un <em>binaire</em> compilé pour une architecture <em>CPU</em> compatible ;</p>
+</li>
+<li>
+<p>le fichier est un <em>script exécutable</em> (code source lisible à l&#8217;œil nu), auquel cas il doit recourir à un <em>interpréteur</em>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>On peut avoir recourt à un interpréteur directement en faisant :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>bash mon-script.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ou bien en débutant <code>mon-script.sh</code> par <code>#!/usr/bin/env bash</code> pour sélectionner l&#8217;interpréteur <code>bash</code> (généralement disponible en tant que <code>/bin/bash</code>) puis en exécutant :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>chmod +x mon-script.sh
+<span class=dollar></span>./mon-script.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On peut ainsi décider quel interpréteur sera employé pour comprendre le script, le transformer en langage machine et l&#8217;exécuter à la volée.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="arguments_de_processus_code_argv_code">2.5. Arguments de processus (<code>argv</code>)</h3>
+<div class="paragraph">
+<p>Exécuter un programme peut parfois nécessiter un paramétrage contextuel et indépendant de la valeur des variables d&#8217;environnement.
+On lui passe ainsi des <em>paramètres</em> ou <em>arguments</em> qui lui sont spécifiques.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>FOO_VAL='bar'
+<span class=dollar></span>./argv.sh --foo=$FOO_VAL toto</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ces arguments de processus sont disponibles de manière brute, itérable sous forme de liste :</p>
+</div>
+<div class="listingblock">
+<div class="title">argv.sh</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">#!/usr/bin/env bash
+
+echo $@ <b class="conum">(1)</b>
+
+for ARG in $@; do
+  echo "Argument $ARG"; <b class="conum">(2)</b>
+done</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Affiche <code>--foo=bar toto</code> ;</p>
+</li>
+<li>
+<p>Affiche tour à tour <code>--foo=bar</code> puis <code>toto</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Dans Node, vous retrouverez ces arguments dans la variable <a href="#api-process">process.argv</a>, détaillée par ailleurs dans ce même chapitre.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="streams_et_redirections">2.6. Streams et redirections</h3>
+<div class="paragraph">
+<p>La dernière pierre angulaire des concepts UNIX est la présence des <em>flux de données</em> (<em>streams</em>) et de <em>redirection de flux</em> (<em>pipes</em>).
+L&#8217;idée est de pouvoir créer des programmes <em>solides</em>, résistant au temps et interopérables entre eux – peu importe leur interpréteur.</p>
+</div>
+<div class="paragraph">
+<p>Un programme peut être amené à produire un <strong>flux de données</strong> et à le <strong>rediriger</strong> vers un emplacement, que ce soit un <em>fichier</em> (avec <code>&gt;</code>), un <em>terminal</em> d&#8217;affichage ou un <em>autre programme</em> (avec <code>|</code>) :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>date                    # <1>
+<span class=dollar></span>date > date.txt         # <2>
+<span class=dollar></span>date | grep -Eo "\d{4}" # <3></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Redirection implicite vers le <em>terminal</em> – affiche la date du jour ;</p>
+</li>
+<li>
+<p>Redirection vers un <em>fichier</em> – rien n&#8217;est affiché.</p>
+</li>
+<li>
+<p>Redirection vers un <em>programme</em> puis vers le <em>terminal</em> – affiche l&#8217;année courante.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Un programme peut ainsi être spécialisé dans l'<em>affichage</em> des processus, un autre dans le <em>filtrage</em> puis un autre dans l'<em>extraction</em> de valeurs.
+Cette pratique poussée de la modularité encourage la <strong>combinaison</strong> plutôt que le <strong>tout-en-un</strong>.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;exemple suivant illustre l&#8217;affichage de données d&#8217;une session utilisateur, dans l&#8217;optique d&#8217;obtenir le nom du terminal (<code>TTY</code>) :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>w
+10:33  up 5 days, 18:48, 5 users, load averages: 1.36 1.62 1.75
+USER     TTY      FROM              LOGIN@  IDLE WHAT
+oncletom console  -                Fri15   5days -</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nous isolons la troisième ligne :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>w | head -n 3 | tail -n 1 # <1></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>En vrai, nous isolons les trois premières lignes avec <code>head</code> pour n&#8217;en garder que la dernière avec <code>tail</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Et finalement la valeur contenue dans la deuxième colonne avec <code>awk</code> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>w | head -n 3 | tail -n 1 | awk '{ print $2 }'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="architecture_technique">3. Architecture technique</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Node est un environnement d&#8217;exécution JavaScript qui permet de
+manipuler des ressources système.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;architecture de Node se décompose en plusieurs couches, partant du plus haut niveau (exposées au développeur) et allant jusqu&#8217;au plus bas niveau (exposées au système d&#8217;exploitation) :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>API Node</p>
+</li>
+<li>
+<p>Interpréteur Node</p>
+</li>
+<li>
+<p>Machine Virtuelle V8</p>
+</li>
+<li>
+<p><em>libuv</em></p>
+</li>
+<li>
+<p>Système d&#8217;exploitation</p>
+</li>
+</ol>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<a class="image" href="https://twitter.com/busyrich/status/496344440559378432"><img src="./images/event-loop.svg" alt="event loop" width="85%"></a>
+</div>
+<div class="title">Figure 2. Via <span class="URL"><a href="https://twitter.com/busyrich/status/496344440559378432" class="bare">twitter.com/busyrich/status/496344440559378432</a></span></div>
+</div>
+<div class="sect2">
+<h3 id="api_node">3.1. API Node</h3>
+<div class="paragraph">
+<p>L&#8217;API Node correspond à des <em>modules CommonJS</em> écrits en JavaScript (voir ci-après) : client et serveur TCP, accès au système de fichiers, lecture de DNS, streams, buffers, etc.</p>
+</div>
+<div class="paragraph">
+<p>Le but de cette API est d&#8217;adresser les manipulations les plus répétitives et pénibles pour les développeurs.
+Vous avez déjà cherché à implémenter un client HTTP de zéro ?
+Node vous affranchit de cette contrainte en prenant à sa charge ce difficile labeur (car oui, écrire un client HTTP n&#8217;est pas une sinécure !).</p>
+</div>
+<div class="paragraph">
+<p>Ces modules natifs sont relativement bas niveau.
+Ils servent de base à la création d&#8217;autres modules plus faciles d&#8217;accès et partagés dans le registre npm.</p>
+</div>
+<div class="listingblock">
+<div class="title">api.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">const fs = require('fs');</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Dans cet exemple, la fonction <code>require</code> charge l&#8217;API d&#8217;accès au système de fichier contenue dans le module <code>fs</code>.</p>
+</div>
+<div class="paragraph">
+<p>Le module CommonJS <code>fs</code> expose des fonctions ouvrant l&#8217;accès au système de fichier du système d&#8217;exploitation sur lequel est exécuté le code.</p>
+</div>
+<div class="paragraph">
+<p>Ce code trivial en apparence masque en réalité des milliers de lignes de code écrites en JavaScript et C++.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="modules_commonjs">3.2. Modules CommonJS</h3>
+<div class="paragraph">
+<p>Le projet <em>CommonJS</em> débute en janvier 2009.</p>
+</div>
+<div class="paragraph">
+<p>Pour les membres fondateurs, il était devenu évident que JavaScript allait évoluer dans d&#8217;autres environnements que les seuls navigateurs web.
+Il fallait donc trouver un moyen de rendre le code interopérable sur les différentes plates-formes.<br>
+Les spécifications les plus notables sont <em>Console</em> et <em>Module</em>.</p>
+</div>
+<div class="paragraph">
+<p>La spécification <em>Module</em> définit entre autres :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>la syntaxe de déclaration d&#8217;un module ;</p>
+</li>
+<li>
+<p>le procédé de chargement d&#8217;un module ;</p>
+</li>
+<li>
+<p>l&#8217;algorithme de résolution d&#8217;un module au sein d&#8217;un arbre de dépendance.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>L&#8217;exemple suivant illustre avec du code ce qu&#8217;est un module CommonJS.</p>
+</div>
+<div class="listingblock">
+<div class="title">increment-module.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+let counter = 0;
+
+console.log(module.id);
+
+module.exports = {
+  run: () =&gt; counter++,
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>La spécification <em>Module</em> de CommonJS fait usage de la portée lexicale (<em>lexical scope</em>) pour isoler ce qui appartient au module (la variable <code>privateValue</code>) et ce qu&#8217;il expose (une fonction incrémentant et retournant la variable privée).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">const increment = require('./increment-module.js');
+
+increment();    <b class="conum">(1)</b>
+increment();    <b class="conum">(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>retourne <code>1</code></p>
+</li>
+<li>
+<p>retourne <code>2</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Le fonctionnement technique des modules est décrit plus en détail dans le <a href="../chapter-02/index.html">Chapitre 2 : Premiers pas avec Node</a>.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;essentiel est d&#8217;en retenir que Node se base sur ce mécanisme de chargement de module.
+<strong>Ces modules sont une des forces principales de Node</strong>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💡</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Lien</span> Site officiel CommonJS</div>
+<div class="paragraph">
+<p>Le site officiel de CommonJS documente différentes spécifications vouées à promouvoir l&#8217;interopérabilité et la réutilisabilité de JavaScript sur divers environnement d&#8217;exécution.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="URL"><a href="http://www.commonjs.org/" class="bare">www.commonjs.org/</a></span></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="interpréteur_node">3.3. Interpréteur Node</h3>
+<div class="paragraph">
+<p>L&#8217;interpréteur Node est un programme informatique écrit en C++ et en JavaScript.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;interpréteur crée un environnement d&#8217;exécution,
+initialise la boucle événementielle (voir <a href="#event-loop"><em>Event Loop</em></a> ci-après),
+lit le code JavaScript,
+crée l&#8217;arbre de dépendance des modules puis demande à exécuter le tout.<br>
+L&#8217;exécution est considérée terminée lorsque la boucle événementielle
+n&#8217;a plus d&#8217;instructions à traiter, ni maintenant ni dans le futur.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;interpréteur s&#8217;arrêtera prématurément si une erreur se déclare et
+que cette dite erreur n&#8217;est pas prise en charge par le programme.</p>
+</div>
+<div class="listingblock interactive interactive--javascript">
+<div class="title">print-date.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict'
+
+console.log(new Date().toString());</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node print-date.js // <1></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Affiche <code>Fri Apr 04 2014 20:26:46 GMT+0100 (BST)</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Dans cet exemple, l&#8217;interpréteur Node lit le contenu du fichier <code>print-date.js</code>, exécute les deux instructions et s&#8217;arrête dès que les deux instructions sont terminées.</p>
+</div>
+<div class="paragraph">
+<p>La compilation du code est effectuée par la machine virtuelle V8.<br>
+La liaison avec le shell système est effectuée par <em>libuv</em>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💡</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Lien</span> Code Source de Node</div>
+<div class="paragraph">
+<p>Le code source de Node est disponible sur GitHub.
+Le parcourir permet de mieux comprendre la magie de son fonctionnement… ou d&#8217;avoir subitement mal à la tête !</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="URL"><a href="https://github.com/nodejs/node" class="bare">github.com/nodejs/node</a></span></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="v8">3.4. Machine Virtuelle V8</h3>
+<div class="paragraph">
+<p>La machine virtuelle V8 est un compilateur JavaScript focalisé sur les performances et la sécurité.
+V8 a été créé par Google pour interpréter JavaScript dans son navigateur web Chrome.</p>
+</div>
+<div class="paragraph">
+<p>Node utilise également V8 pour les mêmes raisons : parser, compiler et exécuter JavaScript.
+Le résultat de la compilation est retourné sous forme de fonctions et de ressources C++ manipulées par l&#8217;interpréteur Node.</p>
+</div>
+<div class="paragraph">
+<p>Par ricochet, les progrès de V8 impactent directement Node.
+Cela concerne aussi bien la prise en charge des nouveautés d&#8217;ECMAScript (édition 2015, etc.) mais aussi des options et fonctionnalités expérimentales activables à la demande.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💡</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Lien</span> Google V8</div>
+<div class="paragraph">
+<p>Google propose une documentation en ligne du projet V8.
+Cette documentation est accompagnée d&#8217;un guide pour intégrer V8 dans d&#8217;autres programmes C++.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="URL"><a href="https://developers.google.com/v8/" class="bare">developers.google.com/v8/</a></span></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="libuv">3.5. libuv</h3>
+<div class="paragraph">
+<p><em>libuv</em> (<span class="URL"><a href="http://libuv.org/" class="bare">libuv.org/</a></span>) est une librairie C++ focalisée sur l&#8217;accès aux ressources système de manière non bloquante.</p>
+</div>
+<div class="paragraph">
+<p>Cette librairie est compatible avec de nombreux systèmes d&#8217;exploitation comme Windows, Linux ou encore FreeBSD.<br>
+D&#8217;autres logiciels sont basés sur <em>libuv</em> mais Node est la première plate-forme à en avoir fait l&#8217;usage… et pour cause, <em>libuv</em> a été créée pour les besoins propres de Node.</p>
+</div>
+<div class="paragraph">
+<p><em>libuv</em> implémente notamment la fameuse boucle événementielle (<a href="#event-loop"><em>Event Loop</em></a>, voir ci-après), la file de priorité (<em>priority queue</em>), délègue les accès réseaux au système d&#8217;exploitation et expose la plupart des fonctions UNIX nécessaires à la manipulation de fichiers et d&#8217;autres actions bas niveau.</p>
+</div>
+<div class="paragraph">
+<p><strong>La performance de Node réside clairement dans <em>libuv</em></strong>.
+JavaScript n&#8217;y est pour rien, si ce n&#8217;est à travers la puissance de la machine virtuelle V8.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💡</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Lien</span> Code source de <em>libuv</em></div>
+<div class="paragraph">
+<p>Le code source de <em>libuv</em> est disponible sur GitHub. Le parcourir permet de mieux comprendre les adaptations à chaque système d&#8217;exploitation, par exemple.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="URL"><a href="https://github.com/libuv/libuv" class="bare">github.com/libuv/libuv</a></span></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="event-loop">3.6. Boucle événementielle</h3>
+<div class="paragraph">
+<p>La boucle événementielle (<em>Event Loop</em>) est un mécanisme d&#8217;exécution des tâches apporté par <em>libuv</em> et déléguée au système d&#8217;exploitation.
+Elle s&#8217;inspire très fortement du modèle de boucle événementielle telle qu&#8217;implémentée dans les navigateurs web.</p>
+</div>
+<div class="paragraph">
+<p>C&#8217;est grâce à ce mécanisme que l&#8217;exécution d&#8217;une fonction peut être reportée.
+C&#8217;est la fameuse <em>exécution asynchrone</em>.</p>
+</div>
+<div class="listingblock">
+<div class="title">timeout.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">const referenceTime = process.hrtime(); <b class="conum">(1)</b>
+const printT = () =&gt; console.log(process.hrtime(referenceTime)[0]); <b class="conum">(2)</b>
+
+printT();                               <b class="conum">(3)</b>
+setTimeout(printT, 1000);               <b class="conum">(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Initialise un temps de référence.</p>
+</li>
+<li>
+<p>Fonction affichant le nombre de secondes de différence avec le temps de référence à chaque invocation.</p>
+</li>
+<li>
+<p>Affiche <code>0</code>.</p>
+</li>
+<li>
+<p>Affiche <code>1</code>, car exécutée <em>une seconde</em> (<em>1000 millisecondes</em>) plus tard.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Dans ce précédent exemple, le code est interprété séquentiellement comme suit.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Assignation de la variable <code>referenceTime</code>.</p>
+</li>
+<li>
+<p>Invocation de la fonction <code>printT</code> (retournant <code>0</code>).</p>
+</li>
+<li>
+<p>Invocation de la fonction <code>console.log</code>.</p>
+</li>
+<li>
+<p>Invocation de la fonction <code>setTimeout</code> : il s&#8217;agit d&#8217;un contrat avec la boucle événementielle d&#8217;exécuter <code>printT</code> dans 1 000 millisecondes.</p>
+</li>
+<li>
+<p>La boucle événementielle continue de tourner, car il y a une tâche à traiter.</p>
+</li>
+<li>
+<p>Après avoir tourné pendant 1 000 millisecondes, la boucle dépile une instruction programmée pour cet instant.</p>
+</li>
+<li>
+<p>Invocation de la fonction <code>printT</code> (retournant <code>1</code>).</p>
+</li>
+<li>
+<p>La file de priorité est vide, Node demande au système d&#8217;exploitation d&#8217;arrêter son processus.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💡</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Outil</span> Visualiser la boucle</div>
+<div class="paragraph">
+<p><em>Loupe</em> est un outil de visualisation de boucle évènementielle.
+Écrivez du code et il animera visuellement l&#8217;orchestration de la pile d&#8217;appels, les appels aux API du navigateur ainsi que la pile de callbacks.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="URL"><a href="http://latentflip.com/loupe/" class="bare">latentflip.com/loupe/</a></span></p>
+</li>
+<li>
+<p><span class="URL"><a href="https://github.com/latentflip/loupe" class="bare">github.com/latentflip/loupe</a></span></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Alors pourquoi dit-on que <em>libuv</em> est non bloquant ?
+L&#8217;acquisition d&#8217;une ressource système renvoie un descripteur qui est stocké dans une pile d&#8217;exécution dédiée tandis que le processus principal poursuit son propre traitement.<br>
+La pile d&#8217;exécution est vérifiée à chaque itération de la boucle — à chaque <em>Tick</em>.
+<em>libuv</em> libère la ressource lorsqu&#8217;elle est résolue et le signale au processus principal via un <em>callback</em>.</p>
+</div>
+<div class="paragraph">
+<p>En clair, au lieu de bloquer l&#8217;exécution de l&#8217;instruction suivante, la boucle événementielle reporte la vérification à plus tard et se saisit de l&#8217;instruction suivante.
+Et ainsi de suite.</p>
+</div>
+<div class="paragraph">
+<p>On dit également que Node est <em>single threaded</em> car il n&#8217;y a qu&#8217;une seule boucle par processus Node ; processus rattaché à un seul cœur de processeur (<em>CPU core</em>).<br>
+Il faut donc lancer d&#8217;autres processus Node sur d&#8217;autres cœurs pour être capable de traiter davantage de données à la fois.
+Plusieurs processus Node sur le même cœur se partagent une puissance de calcul finie.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💡</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Trivia</span> JavaScript n&#8217;est pas événementiel</div>
+<div class="paragraph">
+<p>Contrairement à la croyance populaire, <strong>JavaScript n&#8217;a pas de gestion native des événements</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Ce que propose nativement JavaScript, c&#8217;est la facilité de créer des fonctions et d&#8217;encapsuler des contextes via le mécanisme de clôture (<em>closure</em>).
+C&#8217;est tout.</p>
+</div>
+<div class="paragraph">
+<p>Tout ce qui est dit <em>asynchrone</em> et <em>événementiel</em> a en réalité rapport à la boucle événementielle et à sa gestion des tâches.</p>
+</div>
+<div class="paragraph">
+<p>Ceci reste valide tant que la boucle événementielle n&#8217;est pas implémentée nativement dans ECMAScript, vraisemblablement dans la version 7 ou 8 du langage.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="invoke">4. Invoquer Node.js</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>C&#8217;est bien beau de parler d&#8217;histoire, d&#8217;architecture et d&#8217;interpréteur mais concrètement, comment exécuter du code écrit pour Node ?</p>
+</div>
+<div class="paragraph">
+<p>La plate-forme Node fournit un exécutable système : <code>node</code>. C&#8217;est lui qui digèrera votre code, qu&#8217;il ait été préparé ou non :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>node</code> invoquera le <a href="#repl">REPL</a>, un interpréteur interactif (voir ci-après) ;</p>
+</li>
+<li>
+<p><code>node votre-script.js</code> invoquera le dit script.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="repl">4.1. REPL</h3>
+<div class="paragraph">
+<p>Un <em>REPL</em> est un interpréteur interactif exécuté dans votre terminal.
+Une fois invoqué, toutes les instructions écrites dans le terminal seront interprétées dès que vous presserez la touche <kbd>ENTRÉE</kbd></p>
+</div>
+<div class="paragraph">
+<p>L&#8217;intérêt principal d&#8217;utiliser le <em>REPL</em> est de prototyper rapidement du code ; code que l&#8217;on pourra éventuellement sauvegarder en tapant <span class="keyseq"><kbd>.</kbd>+<kbd>S</kbd>+<kbd>A</kbd>+<kbd>V</kbd>+<kbd>E</kbd>+<kbd>ENTRÉE</kbd></span>.</p>
+</div>
+<div class="paragraph">
+<p>Autre exemple : vous écrivez un programme qui nécessite que l&#8217;utilisateur saisisse lui-même du code à faire interpréter par Node.
+On pourrait penser à un programme en ligne de commande éducatif ou encore à une interface web qui commanderait un <em>REPL</em> distant.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="./images/node-repl.png" alt="node repl" width="85%">
+</div>
+</div>
+<div class="paragraph">
+<p>Le <em>REPL</em> lui-même est écrit en ECMAScript.
+Il est disponible dans le module Node natif <code>repl</code> dont la documentation est disponible à l&#8217;adresse suivante : <span class="URL"><a href="https://nodejs.org/api/repl.html" class="bare">nodejs.org/api/repl.html</a></span>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="node-exec">4.2. Exécution de script</h3>
+<div class="paragraph">
+<p>L&#8217;exécution d&#8217;un script est très certainement l&#8217;invocation la plus classique de Node.</p>
+</div>
+<div class="paragraph">
+<p>Node tente de charger et d&#8217;exécuter le fichier mentionné en argument de l&#8217;exécutable <code>node</code>.
+Le processus Node reste actif tant que l'<em>Event Loop</em> a des instructions à traiter dans le futur.</p>
+</div>
+<div class="paragraph">
+<p>Un certain nombre d&#8217;options sont acceptées par l&#8217;exécutable et modifient son comportement en conséquent :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>node debug votre-script.js</code> : active le mode débogage ;</p>
+</li>
+<li>
+<p><code>NODE_ENV=production node votre-script.js</code> : transmet une variable d&#8217;environnement au processus et est accessible sous la forme <code>process.env.NODE_ENV</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="./images/node-exec.png" alt="node exec" width="85%">
+</div>
+</div>
+<div class="paragraph">
+<p>Pour connaître l&#8217;ensemble des options disponibles de l&#8217;exécutable Node, tapez <code>node --help</code> dans votre terminal.
+Plusieurs options pourraient vous intéresser :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>-e</code> (ou <code>--eval</code>) : évalue du code ;</p>
+</li>
+<li>
+<p><code>-p</code> (ou <code>--print</code>) : évalue et affiche le code ;</p>
+</li>
+<li>
+<p><code>-r</code> (ou <code>--require</code>) : inclue un module ;</p>
+</li>
+<li>
+<p><code>--harmony</code> (ou tout sous-ensemble de type <code>--harmony-xx</code>) : active des fonctionnalités expérimentales ;</p>
+</li>
+<li>
+<p><code>--v8-options</code> : passe des options à la <a href="../chapter-01/index.html#v8">VM V8</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>L&#8217;option <code>-p</code> est idéale pour évaluer du code en une ligne et visualiser un résultat :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node -p 'Date()';
+Tue Jan 24 2017 12:42:02 GMT+0100 (CET)
+
+<span class=dollar></span>FIRST_NAME='Thomas' node -p '`Bonjour ${process.env.FIRST_NAME}`'
+Bonjour Thomas</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="node-sh">4.3. Script shell</h3>
+<div class="paragraph">
+<p>Une autre alternative est de créer un fichier exécutable et de spécifier Node en tant qu&#8217;interpréteur.
+C&#8217;est une opération utile pour rendre un programme accessible s&#8217;il est situé dans le <code>$PATH</code> système ou pour rendre un programme accessible lors de l&#8217;installation globale d&#8217;un <em>paquet npm</em>, entre autres.</p>
+</div>
+<div class="paragraph">
+<p>Pour qu&#8217;un fichier soit rendu exécutable, nous devons nous assurer de deux choses :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>du <em>mode exécutable</em> du fichier ;</p>
+</li>
+<li>
+<p>de la présence de l&#8217;entête <em>shebang</em>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Il faut pour cela respectivement :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>ajouter le marqueur <code>x</code> avec le programme <code>chmod</code> ;</p>
+</li>
+<li>
+<p>démarrer le fichier par <code>#!&lt;chemin vers l&#8217;interpréteur node&gt;</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Voici le contenu d&#8217;un fichier (non suffixé avec l&#8217;extension <code>.js</code>) qui affiche les arguments passé à ce dit-script :</p>
+</div>
+<div class="listingblock">
+<div class="title">print-args.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">#!/usr/bin/env node <b class="conum">(1)</b>
+
+'use strict';
+
+const [,, ...args] = process.argv;  <b class="conum">(2)</b>
+
+console.log(args);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Demande au programme <code>/usr/bin/env</code> de retourner le chemin vers l&#8217;exécutable système <code>node</code> ;</p>
+</li>
+<li>
+<p>Plus d&#8217;informations sur l&#8217;utilisation des <code>&#8230;&#8203;</code> dans la section <a href="../chapter-03/index.html#primitive-destructuring">décomposition</a> du chapitre 3.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Le bloc suivant rend le fichier exécutable et l&#8217;exécute avec des arguments :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>chmod +x print-args
+<span class=dollar></span>./print-args Affiche moi
+[ 'Affiche', 'moi' ]</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="npm-scripts">4.3.1. Scripts npm</h4>
+<div class="paragraph">
+<p>L&#8217;utilisation de <em>scripts npm</em> permet d&#8217;invoquer Node de manière légèrement différente tout en masquant la complexité des scripts au niveau du fichier <code>package.json</code>.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;invocation d&#8217;un <em>script npm</em> peut se faire de deux manières :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>npm &lt;script-natif&gt;</code> pour les scripts natifs à <em>npm</em> (<code>start</code>, <code>publish</code>, <code>test</code>, etc.) ;</p>
+</li>
+<li>
+<p><code>npm run &lt;script&gt;</code> pour les scripts additionnels définis par l&#8217;utilisateur.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>npm start
+# équivalent de `npm run start`</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Cette action exécute la commande contenue dans la section <code>scripts.start</code> du fichier <code>package.json</code> :</p>
+</div>
+<div class="listingblock">
+<div class="title">package.json</div>
+<div class="content">
+<pre class="highlightjs highlight"><code>{
+  "name": "nodebook",
+  ...
+  "scripts": {
+    "start": "node server.js"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>L&#8217;avantage de cette approche est double :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>uniformisation du <em>workflow</em> au sein de tous les projets ;</p>
+</li>
+<li>
+<p>npm modifie la <strong>variable système <code>$PATH</code></strong>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Ce dernier point est important.
+Cela signifie que l&#8217;exécution d&#8217;un <em>script npm</em> rend disponible les exécutables contenus dans le répertoire <code>./node_modules/.bin</code> (voir l&#8217;encadré <em>Répertoires et exécutables</em> de la section <a href="#install">Installation</a>).</p>
+</div>
+<div class="listingblock">
+<div class="title">package.json</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">{
+  "name": "nodebook",
+  ...
+  "scripts": {
+    "test": "eslint ." <b class="conum">(1)</b>
+  },
+  "devDependencies": {
+    "eslint": "^3.0.0"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Équivaut donc à <code>./node_modules/.bin/eslint ./src</code>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="arguments_d_invocation">4.4. Arguments d&#8217;invocation</h3>
+<div class="paragraph">
+<p>Les arguments correspondent à un tableau de chaînes exposé par la propriété <code>argv</code> de la <a href="#api-process">variable globale <code>process</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>Cette approche est recommandée pour <strong>créer du code générique</strong> et le <strong>personnaliser avec des arguments</strong>.
+Le script suivant illustre leur lecture par l&#8217;interpréteur Node :</p>
+</div>
+<div class="listingblock">
+<div class="title">config/argv.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+console.log(process.argv);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ce script peut être invoqué de la manière suivante :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node argv.js -y 2014 2012 --title 'fromage baguette' #<1></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Affiche <code>["-y", "2014", "2012", "--title", "fromage baguette"]</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Des librairies sont disponibles pour <strong>transformer les arguments en objets JavaScript</strong>, configurer des valeurs par défaut, de valider les valeurs, de les rendre obligatoires et même de générer automatiquement une aide à l&#8217;utilisateur.</p>
+</div>
+<div class="paragraph">
+<p>Nous aborderons ces techniques avancées dans le <a href="../chapter-09/index.html">Chapitre 9</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="plantage_applicatif">4.5. Plantage applicatif</h3>
+<div class="paragraph">
+<p>Un programme Node s&#8217;arrête en général pour deux raisons :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>la <strong>pile d&#8217;exécution est terminée</strong> et il n&#8217;y a plus rien à exécuter ;</p>
+</li>
+<li>
+<p>une <strong>erreur s&#8217;est produite</strong> et n&#8217;a pas été capturée.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>C&#8217;est souvent le cas lorsqu&#8217;une erreur se produit dans un endroit imprévu de notre code, lorsqu&#8217;une variable inexistante est appelée dans une branche de notre code appelée de manière asynchrone, etc.</p>
+</div>
+<div class="paragraph">
+<p>C&#8217;est une <strong>bonne chose</strong> que le programme s&#8217;arrête car cela nous permet de repérer l&#8217;erreur, de lire la trace et d&#8217;éventuellement patcher notre programme pour éviter cette même erreur dans le futur.</p>
+</div>
+<div class="paragraph">
+<p>Quand un programme s&#8217;arrête de manière imprévue, le <code>process</code> émet un événement <code>uncaughtException</code>.
+Il existe des cas où il est intéressant de l&#8217;écouter, notamment si la route d&#8217;un serveur cause une erreur et que l&#8217;on souhaite maintenir le service disponible malgré tout.</p>
+</div>
+<div class="paragraph">
+<p>Dans ce cas, il convient d&#8217;écouter cet événement et de déterminer quelle est la meilleure action à suivre :</p>
+</div>
+<div class="listingblock">
+<div class="title">server-crash.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+const http = require('http');
+const {parse} = require('url');
+
+const server = http.createServer((request, response) =&gt; {
+  // eslint-disable-next-line
+  const url = parse(requete.url, true); <b class="conum">(1)</b>
+
+  response.end(JSON.stringify(url, null, 2));
+});
+
+server.listen(4001);
+process.on('uncaughtException', console.error);             <b class="conum">(2)</b>
+
+setTimeout(() =&gt; http.get('http://localhost:4001/'), 1000); <b class="conum">(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>En cas de réception d&#8217;une requête HTTP sur le port <code>4001</code>, nous allons parser l&#8217;URL appelée — sauf qu&#8217;une <em>typo</em> s&#8217;est glissée sur cette ligne (<code>requete</code> au lieu de <code>request</code>) ;</p>
+</li>
+<li>
+<p>Cette exception remontera jusqu&#8217;au niveau du <code>process</code> qui déclenchera l&#8217;événement <code>uncaughtException</code> ;</p>
+</li>
+<li>
+<p>Une seconde après avoir lancé le script, une requête HTTP est envoyée au serveur, entrainant l&#8217;exécution du <em>point 1</em>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Encore une fois, <strong>il vaut mieux qu&#8217;un programme plante</strong> plutôt que de le protéger faiblement avec <code>uncaughtException</code>.</p>
+</div>
+<div class="paragraph">
+<p>Il se peut qu&#8217;aucun code ne capture une erreur dans une <a href="../chapter-03/index.html#promise">promesse</a>.
+C&#8217;est notamment le cas s&#8217;il n&#8217;y a aucun appel à <code>.catch()</code> après un <code>.then()</code>.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;événement du <code>process</code> <code>unhandledRejection</code> est alors émis, sans pour autant faire planter le programme.
+Ce comportement est toutefois amené à être modifié dans Node v8.
+Il conviendrait alors de gérer le plantage d&#8217;un programme avec l&#8217;événement <code>uncaughtException</code> de la même manière que vous le feriez avec <code>uncaughtException</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="globals">5. Variables globales dans Node.js</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>En plus des primitives ECMAScript, Node introduit des variables globales supplémentaires.
+Elles vous seront utiles pour faciliter le débogage ou tout simplement pour le développement et le partage de vos modules.</p>
+</div>
+<div class="sect2">
+<h3 id="console">5.1. console</h3>
+<div class="paragraph">
+<p>Toute personne ayant développé du JavaScript pour le navigateur a très certainement utilisé <code>console.log</code> pour tracer l&#8217;état d&#8217;une expression lors de l&#8217;exécution de son code.</p>
+</div>
+<div class="paragraph">
+<p>Trois fonctions sont à garder dans un coin de la tête :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>console.log</code> ;</p>
+</li>
+<li>
+<p><code>console.error</code> ;</p>
+</li>
+<li>
+<p><code>console.trace</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>console.log</code> affiche une représentation textuelle d&#8217;une expression et la formate avec des motifs équivalents à la fonction C <code>printf()</code>.<br>
+Ce contenu est envoyé vers la sortie standard, <code>process.stdout</code> :</p>
+</div>
+<div class="listingblock interactive interactive--javascript">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">console.log('ECMA%s', 'script'); <b class="conum">(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Affiche <code>'ECMAScript'</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><code>console.error</code> a exactement le même comportement mais redirige vers le flux d&#8217;erreur, <code>process.stderr</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>console.trace</code> envoie l&#8217;état de la <em>stack trace</em> vers le flux d&#8217;erreur :</p>
+</div>
+<div class="listingblock">
+<div class="title">stack-trace.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node stack-trace.js
+At level 1
+At level 2
+At level 3
+At level 4
+Trace: Level 5
+    at traceAtLevel (…/examples/stack-trace.js:10:13)
+    at traceAtLevel (…/examples/stack-trace.js:8:5)
+    at traceAtLevel (…/examples/stack-trace.js:8:5)
+    at traceAtLevel (…/examples/stack-trace.js:8:5)
+    at traceAtLevel (…/examples/stack-trace.js:8:5)
+    at Object.<anonymous> (…/examples/stack-trace.js:14:1)
+    at Module._compile (module.js:573:30)
+    at Object.Module._extensions..js (module.js:584:10)
+    at Module.load (module.js:507:32)
+    at tryModuleLoad (module.js:470:12)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Pour en savoir plus sur les méthodes et fonctions disponibles, reportez-vous à la documentation en ligne du module <code>console</code> sur <span class="URL"><a href="https://nodejs.org/api/console.html" class="bare">nodejs.org/api/console.html</a></span>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="api-process">5.2. process</h3>
+<div class="paragraph">
+<p>L&#8217;objet <code>process</code> correspond à l&#8217;instance de l&#8217;environnement Node en cours d&#8217;exécution.</p>
+</div>
+<div class="paragraph">
+<p>Il permet de s&#8217;interfacer avec le système, en écoutant les évènements qu&#8217;il envoie au processus ou en écoutant les évènements que Node s&#8217;apprête à envoyer au système d&#8217;exploitation.</p>
+</div>
+<div class="paragraph">
+<p>Le tableau <code>process.argv</code> contient le chemin du script exécuté ainsi que les différents arguments transmis à Node :</p>
+</div>
+<div class="listingblock interactive interactive--javascript">
+<div class="title">process.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+console.log(process.argv);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Exécutons ce même script avec différents arguments :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node process.js <1>
+<span class=dollar></span>node process.js argument1 "argument 2" --option1 <2></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Retourne <code>[ 'node', '…/chapter-04/examples/process.js' ]</code> ;</p>
+</li>
+<li>
+<p>Retourne <code>[ 'node', '…/chapter-04/examples/process.js', 'argument1', 'argument 2', '--option1' ]</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Il n&#8217;en faut pas davantage pour bâtir votre premier programme en ligne de commande.
+Pour des besoins plus avancés, il existe un certain nombre de modules <em>npm</em> pour exploiter les options et arguments.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💡</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Remarque</span> Arguments internes</div>
+<div class="paragraph">
+<p>Comment faire pour passer des arguments à Node sans qu&#8217;ils soient interprétés par le script et vice-versa ?
+Il suffit de les placer au bon endroit lorsque vous construisez l&#8217;appel à l&#8217;exécutable Node :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>node &lt;arguments node&gt; chemin/vers/script.js &lt;arguments script&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ces arguments se retrouveront respectivement dans <code>process.execArgv</code> et <code>process.argv</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="stdio" class="paragraph">
+<p>Le deuxième ensemble d&#8217;objets à connaître est le trio <code>process.stdin</code>, <code>process.stdout</code> et <code>process.stderr</code>.
+Ce sont trois flux (<em>Streams</em>) qui permettent d&#8217;accéder respectivement à l&#8217;entrée standard, à la sortie standard et à l&#8217;erreur standard.</p>
+</div>
+<div class="paragraph">
+<p>Si ces noms ne vous parlent peut-être pas, c&#8217;est parce qu&#8217;ils sont directement inspirés d&#8217;UNIX.
+Ils sont directement accessibles via l&#8217;interface JavaScript de Node.</p>
+</div>
+<div class="paragraph">
+<p>Le script suivant convertit toute chaîne de caractères envoyée vers l&#8217;entrée standard en lettres majuscules :</p>
+</div>
+<div class="listingblock">
+<div class="title">uppercase.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+process.stdin.on('data', buffer =&gt; {
+  process.stdout.write(buffer.toString().toUpperCase() + '\n');
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Exécutons ce script sur un système Unix :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>echo "Entrée standard" | node uppercase.js <1></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Affiche <code>ENTRÉE STANDARD</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Le concept de <em>Streams</em> sera développé petit à petit au fil de ce chapitre et dans le reste du livre.
+C&#8217;est un concept puissant, mais il y a des fonctionnalités plus simples à appréhender pour débuter.</p>
+</div>
+<div class="paragraph">
+<p>Nous venons de voir que <code>process</code> est un objet contenant plusieurs attributs précieux.
+L&#8217;héritage prototypal est utilisé pour le rendre capable d&#8217;émettre des évènements via la méthode <code>process.on()</code>.
+Cette méthode est utilisée pour écouter les évènements système et permettre à nos programmes de réagir convenablement.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;exemple suivant illustre la réaction face à un signal d&#8217;interruption (abrégé en <code>SIGINT</code>, pour <em>Signal Interrupt</em>).
+Ce signal est notamment émis en pressant les touches <span class="keyseq"><kbd>CTRL</kbd>+<kbd>C</kbd></span>.</p>
+</div>
+<div class="listingblock">
+<div class="title">interrupt.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+const maxTries = parseInt(process.argv[2], 10) || 5;
+
+const terminateIn = tries =&gt; {
+  return () =&gt; {
+    if (--tries === 0) {
+      console.log('Arrêt du programme…');
+      process.exit(0);
+
+      return;
+    }
+
+    console.log('Nombre d\'essais restants: %s', tries);
+  };
+};
+
+console.log('Appuyer %s fois sur CTRL+C arrêtera le programme.', maxTries);
+process.on('SIGINT', terminateIn(maxTries));
+process.stdin.on('data', () =&gt; {});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Et maintenant son exécution dans un terminal Unix :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node interrupt.js 3 <1>
+^C <2>
+^C <3>
+^C <4></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Affiche <code>Appuyer 3 fois sur CTRL+C arrêtera le programme.</code> ;</p>
+</li>
+<li>
+<p>Affiche <code>Nombre d&#8217;essais restants: 2</code> ;</p>
+</li>
+<li>
+<p>Affiche <code>Nombre d&#8217;essais restants: 1</code> ;</p>
+</li>
+<li>
+<p>Affiche <code>Arrêt du programme…</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><code>process.title</code> est une API intéressante pour assigner un <em>titre</em> de process.
+Cela concerne notamment les commandes de liste de processus actifs (comme <code>ls</code>).
+On pourrait penser que cela offre l&#8217;avantage de rendre un processus singulier et donc plus facile à repérer :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node
+> process.title='hey!'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Le résultat lorsqu&#8217;on liste les processus :</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="./images/process-title.png" alt="process title" width="85%">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Attention</strong> toutefois, car il se trouve que le résultat de ce nommage peut se révéler imprédictible en fonction des systèmes d&#8217;exploitation où le programme est exécuté.
+Il est donc recommandé de <strong>ne pas utiliser <code>process.title</code></strong>.</p>
+</div>
+<div class="paragraph">
+<p>Pour en savoir plus sur les méthodes et fonctions disponibles, reportez-vous à la documentation en ligne du module <code>process</code> sur <span class="URL"><a href="https://nodejs.org/api/process.html" class="bare">nodejs.org/api/process.html</a></span>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="module">5.3. module</h3>
+<div class="paragraph">
+<p>Les modules CommonJS sont au cœur du fonctionnement de Node.
+Ils permettent d&#8217;isoler, d&#8217;empaqueter et de rendre le code réutilisable.</p>
+</div>
+<div class="paragraph">
+<p>La magie opère principalement grâce à la fonction <code>require</code> et à l&#8217;objet <code>module</code>.
+Ils s&#8217;occupent respectivement de <em>charger</em> et de <em>déclarer</em> un module.</p>
+</div>
+<div class="paragraph">
+<p>Techniquement parlant, un module est un fichier JavaScript dont toutes les variables sont privées et inaccessibles depuis l&#8217;extérieur.
+Seules les variables exposées par <code>module.exports</code> sont publiquement accessibles.</p>
+</div>
+<div class="paragraph">
+<p>Prenons l&#8217;exemple suivant :</p>
+</div>
+<div class="listingblock">
+<div class="title">currency-format.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+const currencies = {
+  FR: {
+    symbol: '€',
+    decimal: ',',
+  },
+};
+
+const formatNumber = (separator, precision, number) =&gt; {
+  return number.toFixed(precision).replace('.', separator);
+};
+
+const setupFormatter = currencyId =&gt; {
+  const currency = currencies[currencyId];
+  const f = formatNumber.bind(null, currency.decimal, 2);
+
+  return function formatCurrency(amount) {
+    return f(amount) + currency.symbol;
+  };
+};
+
+module.exports = setupFormatter;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Dans le précédent exemple, le module <code>currency-format.js</code> est exposé en tant que fonction.
+Les variables <code>currencies</code> et <code>formatNumber</code> restent encapsulées dans la portée du module.</p>
+</div>
+<div class="paragraph">
+<p>Admettons que nous souhaitons utiliser ce module dans un programme, ici <code>currency-main.js</code> :</p>
+</div>
+<div class="listingblock">
+<div class="title">currency-main.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+const setupFormatter = require('./currency-format.js');
+const formatCurrency = setupFormatter('FR');
+
+console.log(typeof currencies);
+console.log(formatCurrency(12));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>La fonction <code>require</code> chargera le fichier <code>currency-format.js</code> et assignera le résultat de l&#8217;export dans la variable de votre choix, ici, <code>setupFormatter</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node currency-main.js <1> <2></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Affiche <code>undefined</code> ;</p>
+</li>
+<li>
+<p>Puis affiche <code>'12,00€'</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Lors de l&#8217;exécution du précédent programme, nous avons confirmation que la variable <code>currencies</code> contenue dans le module <code>currency-format.js</code> n&#8217;est pas disponible dans le module <code>currency-main.js</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💡</div>
+</td>
+<td class="content">
+<div class="title"><span class="RemarquePreTitre">Remarque</span> Les modules Node</div>
+<div class="paragraph">
+<p>Un module Node est un répertoire contenant un fichier de description <code>package.json</code>.
+Ce fichier contient notamment une propriété <code>main</code> indiquant quel fichier charger par défaut.
+Les modules Node sont, par convention, placés dans un répertoire <code>node_modules</code>.</p>
+</div>
+<div class="paragraph">
+<p>Voici un extrait du fichier <code>package.json</code> du module <code>lodash</code> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+  "name": "lodash",
+  "version": "2.4.1",
+  "main": "dist/lodash.js"
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ainsi, exécuter <code>require('lodash');</code> revient à peu près à faire <code>require('./node_modules/lodash/dist/lodash.js');</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Pour en savoir plus sur les méthodes et fonctions disponibles, reportez-vous à la documentation en ligne des modules sur <span class="URL"><a href="https://nodejs.org/api/modules.html" class="bare">nodejs.org/api/modules.html</a></span>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="api-require">5.4. require</h3>
+<div class="paragraph">
+<p>Nous avons abordé le mécanisme de chargement de modules dans le point précédent.
+Regardons plus en détails le comportement de la fonction <code>require</code>.</p>
+</div>
+<div class="paragraph">
+<p>La fonction <code>require</code> permet de charger des fichiers locaux, des modules JavaScript, des modules binaires ou même des fichiers JSON :</p>
+</div>
+<div class="listingblock">
+<div class="title">require.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+/* eslint-disable */
+
+const fs = require('fs'); <b class="conum">(1)</b>
+const setupFormatter = require('./currency-format'); <b class="conum">(2)</b>
+const chap4Index = require('..'); <b class="conum">(3)</b>
+const _ = require('lodash'); <b class="conum">(4)</b>
+const packageInfos = require('../package.json'); <b class="conum">(5)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Charge le module Node natif <code>fs</code> ;</p>
+</li>
+<li>
+<p>Charge le fichier <code>currency-format.js</code> : Node suffixe automatiquement le nom du fichier par <code>.js</code> (module JavaScript) ou par <code>.node</code> (module binaire) si l&#8217;extension manque ;</p>
+</li>
+<li>
+<p>Charge le fichier <code>examples/index.js</code> du répertoire <code>chapter-04</code> car Node détecte que <code>chapitre-04</code> est un répertoire, découvre le fichier <code>package.json</code> et charge le fichier déclaré dans sa propriété <code>main</code> ;</p>
+</li>
+<li>
+<p>Charge le module Node <code>lodash</code>, vraisemblablement depuis le répertoire <code>node_modules/lodash</code> ;</p>
+</li>
+<li>
+<p>Charge et parse le fichier <code>package.json</code> en tant qu&#8217;objet ECMAScript.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><code>require</code> est une fonction synchrone <em>et</em> bloquante.
+Cela permet de garantir l&#8217;ordre de chargement des modules.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">const path = require('path'); <b class="conum">(1)</b>
+const setupFormatter = require('./currency-format.js'); <b class="conum">(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Node interprète d&#8217;abord cette ligne… ;</p>
+</li>
+<li>
+<p>… puis interprète celle-ci dès que le module <code>path</code> est chargé.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Qui dit bloquant dit que si du code est exécuté dans le module <em>avant</em> l&#8217;export, il ralentira l&#8217;exécution tant que le module n&#8217;aura pas été mis en cache.<br>
+L&#8217;exemple suivant illustre le phénomène :</p>
+</div>
+<div class="listingblock">
+<div class="title">blocking-module.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+let cycles = 0;
+
+while (cycles++ &lt; 1000000000) {
+  // do nothing
+}
+
+module.exports = cycles;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Dans l&#8217;exemple précédent, il faut attendre que la boucle soit complétée avant que la fonction <code>require</code> ne rende la main et procède à l&#8217;exécution des instructions suivantes :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">require('./blocking-module.js');
+
+console.log('module chargé'); <b class="conum">(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Le message ne sera affiché que tardivement, environ une seconde après le chargement du module <code>blocking-module.js</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Il faut s&#8217;assurer que le code exécuté pendant le chargement d&#8217;un module soit exclusivement non bloquant pour conserver la performance applicative.<br>
+Le concept d&#8217;asynchronicité et de non bloquant est explicité plus en détail dans <em>Comprendre les accès non-bloquants</em>.</p>
+</div>
+<div class="paragraph">
+<p>Node optimise le chargement des modules en les mettant en cache.
+Autrement dit et de manière générale, <strong>un module est chargé une seule fois</strong>.
+L&#8217;unicité d&#8217;un module est assurée par son emplacement au sein du système de fichiers, en se basant sur la propriété <code>module.id</code>.</p>
+</div>
+<div class="paragraph">
+<p>Prenons le cas de ce module :</p>
+</div>
+<div class="listingblock">
+<div class="title">increment-module.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+let counter = 0;
+
+console.log(module.id);
+
+module.exports = {
+  run: () =&gt; counter++,
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Le précédent module affichera son identifiant unique à chaque fois qu&#8217;il sera <em>chargé</em>.
+Dès que la méthode <code>run()</code> de l&#8217;objet exporté sera appelée, elle incrémentera la variable privée <code>counter</code> et retournera sa nouvelle valeur.</p>
+</div>
+<div class="paragraph">
+<p>Le module suivant fait deux fois appel à <code>increment-module.js</code> et assigne le résultat dans deux variables différentes.
+Ceci dans le but de vérifier le comportement du mécanisme de chargement des modules Node.</p>
+</div>
+<div class="listingblock">
+<div class="title">increment-main.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+const incrementA = require('./increment-module.js');
+const incrementB = require('./increment-module.js');
+
+console.log(incrementA.run());
+console.log(incrementB.run());
+console.log(incrementA === incrementB);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il ne reste plus qu&#8217;à l&#8217;exécuter pour constater ce qu&#8217;il se passe :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node increment-main.js <1> <2> <3> <4></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Affiche <code>…/chapter-04/examples/increment-module.js</code> ;</p>
+</li>
+<li>
+<p>Affiche <code>0</code> ;</p>
+</li>
+<li>
+<p>Affiche <code>1</code> ;</p>
+</li>
+<li>
+<p>Affiche <code>true</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Le module ayant déjà été chargé une fois, Node n&#8217;ira pas charger le fichier une deuxième fois et ne créera pas de nouvelle instance de l&#8217;objet <code>module</code>.
+Il se contente de <strong>retourner la même instance de module</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Ce comportement peut être exploité	 en tant que <em>design pattern</em> <em>Singleton</em>, explicité plus en détail dans ce même chapitre.</p>
+</div>
+<div class="paragraph">
+<p>Enfin, Node lancera une exception si une erreur se produit lors du chargement (fichier inexistant, erreur de syntaxe dans le fichier à charger).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">try {
+  require('./module-inexistant.js');
+}
+catch (err) {
+  console.log('L\'erreur est la suivante : %s', err.message); <b class="conum">(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>L&#8217;exécution de ce module affichera <code>L&#8217;erreur est la suivante : Cannot find module './module-inexistant.js'</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Pour en savoir plus sur le fonctionnement de la fonction <code>require</code>, reportez-vous à la documentation en ligne des modules sur <span class="URL"><a href="https://nodejs.org/api/modules.html" class="bare">nodejs.org/api/modules.html</a></span>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="filename_et_dirname">5.5. __filename et __dirname</h3>
+<div class="paragraph">
+<p><code>__filename</code> et <code>__dirname</code> sont des constantes indiquant respectivement le chemin absolu du fichier exécuté et le chemin absolu du répertoire contenant le fichier exécuté.</p>
+</div>
+<div class="listingblock interactive interactive--javascript">
+<div class="title">filename-dirname.js</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">'use strict';
+
+console.log(__filename); <b class="conum">(1)</b>
+console.log(__dirname); <b class="conum">(2)</b>
+console.log(__filename === module.filename); <b class="conum">(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Affiche <code>…/chapter-04/examples/filename-dirname.js</code> ;</p>
+</li>
+<li>
+<p>Affiche <code>…/chapter-04/examples</code> ;</p>
+</li>
+<li>
+<p>Affiche <code>true</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Utiliser <code>__filename</code> et <code>__dirname</code> est utile pour travailler avec des chemins absolus, indépendamment du répertoire de travail de Node.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="settimeout_setinterval_et_setimmediate">5.6. setTimeout, setInterval et setImmediate</h3>
+<div class="paragraph">
+<p>Pour des raisons de commodité, Node fournit des implémentations de <code>setTimeout</code>, de <code>setInterval</code> et de <code>setImmediate</code>.
+Pour rappel, ces fonctions de temps ne font pas partie de JavaScript mais de la spécification <em>DOM Level 0</em>.</p>
+</div>
+<div class="paragraph">
+<p>Ces fonctions exécutent une fonction respectivement une seule fois dans un délai imparti, un nombre de fois indéterminé à un intervalle imparti et une seule fois immédiatement :</p>
+</div>
+<div class="listingblock interactive interactive--javascript">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">const print = (message) =&gt; {
+  return print(){
+    console.log(message); <b class="conum">(1)</b> <b class="conum">(2)</b> <b class="conum">(3)</b>
+  }
+};
+
+const timer = setInterval(print('interval'), 250);
+setTimeout(print('timeout'), 200);
+setImmediate(print('immediate'));</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Affichera d&#8217;abord <code>immediate</code>… ;</p>
+</li>
+<li>
+<p>… suivi de <code>timeout</code> environ 200ms plus tard… ;</p>
+</li>
+<li>
+<p>… puis <code>interval</code> environ 50ms plus tard et ce, toutes les 250ms tant que le programme ne sera pas arrêté ou que <code>clearTimeout</code> n&#8217;annulera pas l&#8217;intervalle.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Pour en savoir plus sur les méthodes et fonctions disponibles, reportez-vous à la documentation en ligne du module <code>timers</code> sur <span class="URL"><a href="https://nodejs.org/api/timers.html" class="bare">nodejs.org/api/timers.html</a></span>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="">5.7. _</h3>
+<div class="paragraph">
+<p>La variable globale <code>_</code> est un cas spécial.
+Elle n&#8217;est prédéfinie que dans le terminal interactif (_REPL_).</p>
+</div>
+<div class="paragraph">
+<p>Cette variable <em>magique</em> contient systématiquement le résultat de la dernière évaluation de code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"><span class=dollar></span>node
+> 2 + 2
+4
+> _ + 2
+6</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Dernière mise à jour 2018-02-21 14:32:08 UTC
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+</body>
+</html>
